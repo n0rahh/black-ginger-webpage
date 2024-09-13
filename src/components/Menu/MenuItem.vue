@@ -15,14 +15,25 @@
       </template>
     </v-expansion-panel-title>
     <v-expansion-panel-text>
-      <v-row no-gutters="">
-        <v-col cols="6" class="d-flex align-center">
+      <v-row
+        no-gutters
+        :class="{
+          'd-flex flex-column-reverse': $vuetify.display.xs,
+        }"
+      >
+        <v-col sm="6" cols="12" class="d-flex align-center">
           <p class="text-h6">
             {{ description }}
           </p>
         </v-col>
-        <v-col offset="1" cols="5" class="d-flex justify-end">
-          <v-img :aspect-ratio="1" :src="image"></v-img>
+        <v-col sm="5" cols="12" offset-sm="1" class="d-flex justify-end">
+          <v-img
+            :src="image"
+            class="mb-4"
+            rounded="lg"
+            width="100px"
+            cover="1"
+          />
         </v-col>
       </v-row>
     </v-expansion-panel-text>

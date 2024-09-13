@@ -1,11 +1,11 @@
 <template>
-  <v-container>
+  <v-container class="py-16">
     <v-row>
       <v-col cols="12" class="text-center">
-        <h1>Sushi menu</h1>
+        <h1>Black Ginger Sushi menu</h1>
       </v-col>
     </v-row>
-    <v-container class="d-flex justify-center menu">
+    <v-container class="mt-10 d-flex justify-center menu">
       <v-row>
         <v-col cols="12">
           <v-expansion-panels>
