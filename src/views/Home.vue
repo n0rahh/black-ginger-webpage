@@ -42,6 +42,7 @@ export default {
     return {
       sushiItems: [
         {
+          id: 1,
           title: 'Futo Philadelphia',
           description: 'Salmon, cream cheese, cucumber',
           price: 13,
@@ -49,6 +50,7 @@ export default {
           isGlutenFree: false,
         },
         {
+          id: 2,
           title: 'Piece of Tempura',
           description: 'Shrimp tempura, avocado, leek tempura',
           price: 15,
@@ -56,6 +58,7 @@ export default {
           isGlutenFree: false,
         },
         {
+          id: 3,
           title: 'Big Scallop',
           description:
             'Shrimp tempura, crab meat imitation. On the top mixed chop scallops with tobiko + mayo + wasabi. Topped wasabi sos',
@@ -64,6 +67,7 @@ export default {
           isGlutenFree: false,
         },
         {
+          id: 4,
           title: 'Cucumber maki',
           description: 'Cucumber, rice, nori',
           price: 2,
@@ -71,6 +75,7 @@ export default {
           isGlutenFree: true,
         },
         {
+          id: 5,
           title: 'Salmon maki ',
           description: 'Salmon, rice, nori',
           price: 3,
@@ -78,6 +83,7 @@ export default {
           isGlutenFree: true,
         },
         {
+          id: 6,
           title: 'Tobiko nigiri',
           description: 'Raw salmon eggs with rice. 2 pcs',
           price: 5,
@@ -85,6 +91,7 @@ export default {
           isGlutenFree: true,
         },
         {
+          id: 7,
           title: 'Hight roll',
           description:
             'Crab meat imitation, avocado, cucumber, cream cheese. On the top smoked salmon. Topped sweet mayo',
@@ -93,6 +100,7 @@ export default {
           isGlutenFree: true,
         },
         {
+          id: 8,
           title: 'Avocado Philadelphia Roll',
           description:
             'Salmon + cream cheese + cucumber. Avocado and sesame on the top',
@@ -101,6 +109,7 @@ export default {
           isGlutenFree: false,
         },
         {
+          id: 9,
           title: 'Futomaki',
           description: 'Salmon, avocado, cucumber',
           price: 12,

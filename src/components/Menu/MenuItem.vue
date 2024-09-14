@@ -41,12 +41,17 @@
         <v-col sm="5" cols="12" offset-sm="1" class="d-flex justify-end">
           <v-img
             :src="item.image"
-            class="mb-4"
+            class="my-4"
             rounded="lg"
             width="100px"
             cover
             max-height="300px"
           />
+        </v-col>
+        <v-col cols="12" class="text-center">
+          <v-btn @click="addToCart(item)" block color="tertiary"
+            >ADD TO CART</v-btn
+          >
         </v-col>
       </v-row>
     </v-expansion-panel-text>
@@ -54,6 +59,8 @@
 </template>
 
 <script>
+import { useCartStore } from '@/store/cart';
+
 export default {
   name: 'MenuItem',
   props: {
@@ -68,6 +75,12 @@ export default {
   computed: {
     glutenFreeTextHandler() {
       return this.$vuetify.display.xs ? 'GF' : 'Gluten free';
+    },
+  },
+  methods: {
+    addToCart(item) {
+      const cartStore = useCartStore();
+      cartStore.addToCart(item);
     },
   },
 };
