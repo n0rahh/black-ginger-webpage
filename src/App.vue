@@ -1,5 +1,6 @@
 <template>
   <v-app theme="dark" class="app">
+    <Toolbar />
     <v-main>
       <router-view />
     </v-main>
@@ -7,8 +8,12 @@
 </template>
 
 <script>
+import Toolbar from './components/UI/Toolbar.vue';
 export default {
   name: 'App',
+  components: {
+    Toolbar,
+  },
 };
 </script>
 

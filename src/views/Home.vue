@@ -37,7 +37,6 @@ export default {
   },
   data() {
     return {
-      imagePhila,
       sushiItems: [
         {
           title: 'Philadelphia Roll',
