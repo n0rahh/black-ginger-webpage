@@ -33,6 +33,7 @@
             rounded="lg"
             width="100px"
             cover="1"
+            max-height="300px"
           />
         </v-col>
       </v-row>
