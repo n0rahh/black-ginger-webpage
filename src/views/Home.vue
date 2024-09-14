@@ -1,21 +1,18 @@
 <template>
-  <v-container class="py-16">
+  <v-container class="py-12">
     <v-row>
       <v-col cols="12" class="text-center">
         <h1>Black Ginger Sushi menu</h1>
       </v-col>
     </v-row>
-    <v-container class="mt-10 d-flex justify-center menu">
+    <v-container class="mt-6 d-flex justify-center menu">
       <v-row>
         <v-col cols="12">
           <v-expansion-panels>
             <MenuItem
               v-for="(item, index) in sushiItems"
               :key="index"
-              :title="item.title"
-              :description="item.description"
-              :price="item.price"
-              :image="item.image"
+              :item="item"
             />
           </v-expansion-panels>
         </v-col>
@@ -45,16 +42,18 @@ export default {
     return {
       sushiItems: [
         {
-          title: 'Futo Philadelphia ',
-          description: 'Salmon ,cream cheese, cucumber',
+          title: 'Futo Philadelphia',
+          description: 'Salmon, cream cheese, cucumber',
           price: 13,
           image: futoPhiladelphia,
+          isGlutenFree: false,
         },
         {
           title: 'Piece of Tempura',
-          description: 'Shrimp tempura,avocado , leek tempura',
+          description: 'Shrimp tempura, avocado, leek tempura',
           price: 15,
           image: pieceOfTempura,
+          isGlutenFree: false,
         },
         {
           title: 'Big Scallop',
@@ -62,31 +61,36 @@ export default {
             'Shrimp tempura, crab meat imitation. On the top mixed chop scallops with tobiko + mayo + wasabi. Topped wasabi sos',
           price: 16,
           image: bigScallop,
+          isGlutenFree: false,
         },
         {
           title: 'Cucumber maki',
-          description: 'Cucumber, rice, nori. Gluten free',
+          description: 'Cucumber, rice, nori',
           price: 2,
           image: cucumberMaki,
+          isGlutenFree: true,
         },
         {
           title: 'Salmon maki ',
-          description: 'Salmon, rice, nori. Gluten free. Contains fish',
+          description: 'Salmon, rice, nori',
           price: 3,
           image: salmonMaki,
+          isGlutenFree: true,
         },
         {
           title: 'Tobiko nigiri',
-          description: 'Raw salmon eggs with rice. Gluten free. 2 pcs',
+          description: 'Raw salmon eggs with rice. 2 pcs',
           price: 5,
           image: tobikoNigiri,
+          isGlutenFree: true,
         },
         {
           title: 'Hight roll',
           description:
-            'Crab meat imitation, avocado, cucumber, cream cheese. On the top smoked salmon. Topped sweet mayo. Gluten free',
+            'Crab meat imitation, avocado, cucumber, cream cheese. On the top smoked salmon. Topped sweet mayo',
           price: 13,
           image: hightRoll,
+          isGlutenFree: true,
         },
         {
           title: 'Avocado Philadelphia Roll',
@@ -94,12 +98,14 @@ export default {
             'Salmon + cream cheese + cucumber. Avocado and sesame on the top',
           price: 14,
           image: avocadoPhiladelphia,
+          isGlutenFree: false,
         },
         {
           title: 'Futomaki',
-          description: 'Salmon, avocado, cucumber. Gluten free',
+          description: 'Salmon, avocado, cucumber',
           price: 12,
           image: futomaki,
+          isGlutenFree: true,
         },
       ],
     };

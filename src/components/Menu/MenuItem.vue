@@ -3,12 +3,24 @@
     <v-expansion-panel-title>
       <template v-slot>
         <v-row no-gutters>
-          <v-col class="d-flex justify-start" cols="6">
-            <span class="text-h5">{{ title }}</span>
+          <v-col class="d-flex justify-start align-center" cols="5">
+            <span
+              :class="{
+                'text-subtitle-1': $vuetify.display.xs,
+                'text-h5': !$vuetify.display.xs,
+              }"
+            >
+              {{ item.title }}
+            </span>
           </v-col>
-          <v-col class="d-flex justify-end" cols="5">
+          <v-col cols="3" class="d-flex align-center">
+            <span v-if="item.isGlutenFree" class="ml-6 text-green">
+              {{ glutenFreeTextHandler }}
+            </span>
+          </v-col>
+          <v-col class="d-flex justify-end align-center" cols="3">
             <v-fade-transition leave-absolute>
-              <span class="text-h6 font-weight-bold">{{ price }} $</span>
+              <span class="text-h6 font-weight-bold">{{ item.price }} $</span>
             </v-fade-transition>
           </v-col>
         </v-row>
@@ -23,16 +35,16 @@
       >
         <v-col sm="6" cols="12" class="d-flex align-center">
           <p class="text-h6">
-            {{ description }}
+            {{ item.description }}
           </p>
         </v-col>
         <v-col sm="5" cols="12" offset-sm="1" class="d-flex justify-end">
           <v-img
-            :src="image"
+            :src="item.image"
             class="mb-4"
             rounded="lg"
             width="100px"
-            cover="1"
+            cover
             max-height="300px"
           />
         </v-col>
@@ -45,25 +57,18 @@
 export default {
   name: 'MenuItem',
   props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    description: {
-      type: String,
-      required: true,
-    },
-    price: {
-      type: Number,
-      required: true,
-    },
-    image: {
-      type: String,
+    item: {
+      type: Object,
       required: true,
     },
   },
   data() {
     return {};
+  },
+  computed: {
+    glutenFreeTextHandler() {
+      return this.$vuetify.display.xs ? 'GF' : 'Gluten free';
+    },
   },
 };
 </script>
