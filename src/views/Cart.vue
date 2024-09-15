@@ -4,6 +4,9 @@
       <v-card-title class="mb-6">
         <h2 class="text-h4">Cart</h2>
       </v-card-title>
+      <v-card-text v-if="!cartItems.length">
+        <p class="text-h6">Your cart is empty</p>
+      </v-card-text>
       <v-card-text>
         <v-row>
           <v-col cols="12">
@@ -45,7 +48,7 @@
             </v-list>
           </v-col>
         </v-row>
-        <v-row>
+        <v-row v-if="cartItems.length">
           <v-col cols="12" class="d-flex justify-end">
             <span class="text-h6">Summary: {{ totalPrice }} $</span>
           </v-col>
