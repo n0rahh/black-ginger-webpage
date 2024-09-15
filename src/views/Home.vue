@@ -48,6 +48,7 @@ export default {
           price: 13,
           image: futoPhiladelphia,
           isGlutenFree: false,
+          pcs: 10,
         },
         {
           id: 2,
@@ -56,6 +57,7 @@ export default {
           price: 15,
           image: pieceOfTempura,
           isGlutenFree: false,
+          pcs: 10,
         },
         {
           id: 3,
@@ -65,6 +67,7 @@ export default {
           price: 16,
           image: bigScallop,
           isGlutenFree: false,
+          pcs: 10,
         },
         {
           id: 4,
@@ -73,6 +76,7 @@ export default {
           price: 2,
           image: cucumberMaki,
           isGlutenFree: true,
+          pcs: 8,
         },
         {
           id: 5,
@@ -81,14 +85,16 @@ export default {
           price: 3,
           image: salmonMaki,
           isGlutenFree: true,
+          pcs: 8,
         },
         {
           id: 6,
           title: 'Tobiko nigiri',
-          description: 'Raw salmon eggs with rice. 2 pcs',
+          description: 'Raw salmon eggs with rice',
           price: 5,
           image: tobikoNigiri,
           isGlutenFree: true,
+          pcs: 2,
         },
         {
           id: 7,
@@ -98,6 +104,7 @@ export default {
           price: 13,
           image: hightRoll,
           isGlutenFree: true,
+          pcs: 10,
         },
         {
           id: 8,
@@ -107,6 +114,7 @@ export default {
           price: 14,
           image: avocadoPhiladelphia,
           isGlutenFree: false,
+          pcs: 10,
         },
         {
           id: 9,
@@ -115,6 +123,7 @@ export default {
           price: 12,
           image: futomaki,
           isGlutenFree: true,
+          pcs: 10,
         },
       ],
     };

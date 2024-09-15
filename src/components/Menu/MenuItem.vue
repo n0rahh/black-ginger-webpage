@@ -33,10 +33,11 @@
           'd-flex flex-column-reverse': $vuetify.display.xs,
         }"
       >
-        <v-col sm="6" cols="12" class="d-flex align-center">
+        <v-col sm="6" cols="12" class="d-flex flex-column justify-center">
           <p class="text-h6">
             {{ item.description }}
           </p>
+          <p class="text-h6 mt-8">{{ item.pcs }} pcs</p>
         </v-col>
         <v-col sm="5" cols="12" offset-sm="1" class="d-flex justify-end">
           <v-img
@@ -49,9 +50,9 @@
           />
         </v-col>
         <v-col cols="12" class="text-center">
-          <v-btn @click="addToCart(item)" block color="tertiary"
-            >ADD TO CART</v-btn
-          >
+          <v-btn @click="addToCart(item)" block color="tertiary">
+            ADD TO CART
+          </v-btn>
         </v-col>
       </v-row>
     </v-expansion-panel-text>
