@@ -13,7 +13,7 @@
             <div
               v-for="item in cartItems"
               :key="item.id"
-              class="mb-6 list-item"
+              class="mb-4 list-item"
             >
               <div class="content">
                 <span class="text-h6">
@@ -71,12 +71,21 @@
                 'mt-4': $vuetify.display.xs,
               }"
             >
-              Send order
+              <span v-if="!isLoading">Send order</span>
+              <v-progress-circular
+                v-else
+                indeterminate
+                color="white"
+                size="24"
+              />
             </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
     </v-card>
+    <v-snackbar v-model="snackbar.show" :color="snackbar.snackbarColor">
+      {{ snackbar.snackbarText }}
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -89,6 +98,12 @@ export default {
   data() {
     return {
       cartStore: useCartStore(),
+      snackbar: {
+        show: false,
+        snackbarText: '',
+        snackbarColor: 'green',
+      },
+      isLoading: false,
     };
   },
   methods: {
@@ -98,9 +113,14 @@ export default {
     incrementQuantity(item) {
       this.cartStore.incrementQuantity(item);
     },
+    clearSnackbar() {
+      this.snackbar.show = false;
+      this.snackbar.snackbarText = '';
+    },
     async sendOrderNotification(orderDetails) {
       const botToken = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
       const chatId = import.meta.env.VITE_TELEGRAM_CHAT_ID;
+      this.isLoading = true;
 
       const orderItems = orderDetails
         .map((item) => {
@@ -120,11 +140,25 @@ export default {
             parse_mode: 'MarkdownV2',
           })
           .then(() => {
-            this.cartStore.clearCart();
-            this.$router.push('/');
+            this.snackbar.snackbarText = 'Order sent successfully';
+            this.snackbar.show = true;
+            this.isLoading = false;
+
+            setTimeout(() => {
+              this.clearSnackbar();
+              this.cartStore.clearCart();
+              this.$router.push('/');
+            }, 2000);
           });
-      } catch (error) {
-        console.error('Error sending message:', error);
+      } catch {
+        this.snackbar.snackbarText = 'Error sending order';
+        this.snackbar.show = true;
+        this.snackbar.snackbarColor = 'red';
+        this.isLoading = false;
+
+        setTimeout(() => {
+          this.clearSnackbar();
+        }, 2000);
       }
     },
   },
