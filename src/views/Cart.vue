@@ -52,9 +52,25 @@
         </v-row>
         <v-row v-if="cartItems.length">
           <v-col cols="12"> </v-col>
-          <v-col cols="12" class="d-flex justify-space-between align-center">
-            <span class="text-h6">Summary: {{ totalPrice }} $</span>
-            <v-btn color="primary" @click="sendOrderNotification(cartItems)">
+          <v-col
+            cols="12"
+            class="d-flex"
+            :class="{
+              'justify-space-between align-center': !$vuetify.display.xs,
+              'flex-column': $vuetify.display.xs,
+            }"
+          >
+            <p class="d-flex align-center justify-space-between">
+              <span class="text-h6">Summary:</span>
+              <span class="text-h5 ml-4">{{ totalPrice }} $</span>
+            </p>
+            <v-btn
+              color="primary"
+              @click="sendOrderNotification(cartItems)"
+              :class="{
+                'mt-4': $vuetify.display.xs,
+              }"
+            >
               Send order
             </v-btn>
           </v-col>
