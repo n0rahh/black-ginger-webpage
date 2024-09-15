@@ -97,14 +97,16 @@ export default {
       const message = `*New order received:*\n\n${orderItems}\n\n*Total Price:* ${totalPrice}$`;
 
       try {
-        await axios.post(
-          `https://api.telegram.org/bot${botToken}/sendMessage`,
-          {
+        await axios
+          .post(`https://api.telegram.org/bot${botToken}/sendMessage`, {
             chat_id: chatId,
             text: message,
             parse_mode: 'MarkdownV2',
-          },
-        );
+          })
+          .then(() => {
+            this.cartStore.clearCart();
+            this.$router.push('/');
+          });
       } catch (error) {
         console.error('Error sending message:', error);
       }
