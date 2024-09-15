@@ -45,42 +45,74 @@
             </div>
           </v-col>
         </v-row>
-        <v-row v-if="cartItems.length">
-          <v-col cols="12" class="py-0">
-            <v-divider opacity="1" />
-          </v-col>
-        </v-row>
-        <v-row v-if="cartItems.length">
-          <v-col cols="12"> </v-col>
-          <v-col
-            cols="12"
-            class="d-flex"
-            :class="{
-              'justify-space-between align-center': !$vuetify.display.xs,
-              'flex-column': $vuetify.display.xs,
-            }"
-          >
-            <p class="d-flex align-center justify-space-between">
-              <span class="text-h6">Summary:</span>
-              <span class="text-h5 ml-4">{{ totalPrice }} $</span>
-            </p>
-            <v-btn
-              color="primary"
-              @click="sendOrderNotification(cartItems)"
+        <div v-if="cartItems.length">
+          <v-row>
+            <v-col cols="12" class="py-0">
+              <v-divider opacity="1" />
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" class="d-flex flex-column">
+              <v-form ref="form" v-model="isFormValid">
+                <span class="text-h6">Provide some information</span>
+                <v-text-field
+                  v-model="customer.name"
+                  label="Your name"
+                  variant="outlined"
+                  :rules="nameRules"
+                  max-width="300"
+                  class="my-4"
+                  required
+                />
+                <v-text-field
+                  v-model="customer.instagramUsername"
+                  label="Your Instagram username"
+                  variant="outlined"
+                  :rules="instagramRules"
+                  max-width="300"
+                  class="mb-4"
+                  required
+                />
+              </v-form>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" class="py-0">
+              <v-divider opacity="1" />
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12"> </v-col>
+            <v-col
+              cols="12"
+              class="d-flex"
               :class="{
-                'mt-4': $vuetify.display.xs,
+                'justify-space-between align-center': !$vuetify.display.xs,
+                'flex-column': $vuetify.display.xs,
               }"
             >
-              <span v-if="!isLoading">Send order</span>
-              <v-progress-circular
-                v-else
-                indeterminate
-                color="white"
-                size="24"
-              />
-            </v-btn>
-          </v-col>
-        </v-row>
+              <p class="d-flex align-center justify-space-between">
+                <span class="text-h6">Summary:</span>
+                <span class="text-h5 ml-4">{{ totalPrice }} $</span>
+              </p>
+              <v-btn
+                color="primary"
+                @click="submitOrder"
+                :class="{
+                  'mt-4': $vuetify.display.xs,
+                }"
+              >
+                <span v-if="!isLoading">Send order</span>
+                <v-progress-circular
+                  v-else
+                  indeterminate
+                  color="white"
+                  size="24"
+                />
+              </v-btn>
+            </v-col>
+          </v-row>
+        </div>
       </v-card-text>
     </v-card>
     <v-snackbar v-model="snackbar.show" :color="snackbar.snackbarColor">
@@ -103,7 +135,14 @@ export default {
         snackbarText: '',
         snackbarColor: 'green',
       },
+      customer: {
+        name: '',
+        instagramUsername: '',
+      },
+      nameRules: [(v) => !!v || 'Name is required'],
+      instagramRules: [(v) => !!v || 'Instagram username is required'],
       isLoading: false,
+      isFormValid: false,
     };
   },
   methods: {
@@ -120,36 +159,36 @@ export default {
     async sendOrderNotification(orderDetails) {
       const botToken = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
       const chatId = import.meta.env.VITE_TELEGRAM_CHAT_ID;
-      this.isLoading = true;
 
       const orderItems = orderDetails
-        .map((item) => {
-          return `• ${item.title}: ${item.quantity} x ${item.price}$`;
-        })
+        .map((item) => `• ${item.title}: ${item.quantity} x ${item.price}$`)
         .join('\n');
-
       const totalPrice = this.totalPrice;
-
-      const message = `*New order received:*\n\n${orderItems}\n\n*Total Price:* ${totalPrice}$`;
+      const message =
+        `*New order received:*\n\n` +
+        `*Name:* ${this.customer.name}\n` +
+        `*Instagram:* ${this.customer.instagramUsername}\n\n` +
+        `${orderItems}\n\n` +
+        `*Total Price:* ${totalPrice}$`;
 
       try {
-        await axios
-          .post(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        await axios.post(
+          `https://api.telegram.org/bot${botToken}/sendMessage`,
+          {
             chat_id: chatId,
             text: message,
             parse_mode: 'MarkdownV2',
-          })
-          .then(() => {
-            this.snackbar.snackbarText = 'Order sent successfully';
-            this.snackbar.show = true;
-            this.isLoading = false;
+          },
+        );
+        this.snackbar.snackbarText = 'Order sent successfully';
+        this.snackbar.show = true;
+        this.isLoading = false;
 
-            setTimeout(() => {
-              this.clearSnackbar();
-              this.cartStore.clearCart();
-              this.$router.push('/');
-            }, 2000);
-          });
+        setTimeout(() => {
+          this.clearSnackbar();
+          this.cartStore.clearCart();
+          this.$router.push('/');
+        }, 2000);
       } catch {
         this.snackbar.snackbarText = 'Error sending order';
         this.snackbar.show = true;
@@ -159,6 +198,14 @@ export default {
         setTimeout(() => {
           this.clearSnackbar();
         }, 2000);
+      }
+    },
+    submitOrder() {
+      this.$refs.form.validate();
+
+      if (this.isFormValid) {
+        this.isLoading = true;
+        this.sendOrderNotification(this.cartItems);
       }
     },
   },
