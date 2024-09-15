@@ -51,8 +51,12 @@
           </v-col>
         </v-row>
         <v-row v-if="cartItems.length">
-          <v-col cols="12" class="d-flex justify-end">
+          <v-col cols="12"> </v-col>
+          <v-col cols="12" class="d-flex justify-space-between align-center">
             <span class="text-h6">Summary: {{ totalPrice }} $</span>
+            <v-btn color="primary" @click="sendOrderNotification(cartItems)">
+              Send order
+            </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -61,6 +65,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import { useCartStore } from '@/store/cart';
 
 export default {
@@ -76,6 +81,33 @@ export default {
     },
     incrementQuantity(item) {
       this.cartStore.incrementQuantity(item);
+    },
+    async sendOrderNotification(orderDetails) {
+      const botToken = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
+      const chatId = import.meta.env.VITE_TELEGRAM_CHAT_ID;
+
+      const orderItems = orderDetails
+        .map((item) => {
+          return `• ${item.title}: ${item.quantity} x ${item.price}$`;
+        })
+        .join('\n');
+
+      const totalPrice = this.totalPrice;
+
+      const message = `*New order received:*\n\n${orderItems}\n\n*Total Price:* ${totalPrice}$`;
+
+      try {
+        await axios.post(
+          `https://api.telegram.org/bot${botToken}/sendMessage`,
+          {
+            chat_id: chatId,
+            text: message,
+            parse_mode: 'MarkdownV2',
+          },
+        );
+      } catch (error) {
+        console.error('Error sending message:', error);
+      }
     },
   },
   computed: {

@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar elevation="2" color="primary">
+  <v-app-bar elevation="2" color="primary" class="px-6">
     <v-toolbar-title>
       <v-img
         :src="logo"

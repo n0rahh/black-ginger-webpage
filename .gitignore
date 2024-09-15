@@ -31,3 +31,5 @@ firebase-debug.log
 
 # Firebase CLI settings
 .firebaserc
+
+.env
