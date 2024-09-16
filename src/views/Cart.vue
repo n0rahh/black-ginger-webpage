@@ -96,7 +96,7 @@
                 <span class="text-h5 ml-4">{{ totalPrice }} $</span>
               </p>
               <v-btn
-                color="primary"
+                color="tertiary"
                 @click="submitOrder"
                 :class="{
                   'mt-4': $vuetify.display.xs,

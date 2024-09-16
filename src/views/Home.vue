@@ -5,12 +5,26 @@
         <h1>Black Ginger Sushi menu</h1>
       </v-col>
     </v-row>
-    <v-container class="mt-6 d-flex justify-center menu">
+    <v-container class="mt-6 menu">
+      <v-row>
+        <v-col cols="12" class="py-0 d-flex justify-end">
+          <v-select
+            v-model="selectedType"
+            label="Filter by"
+            item-title="text"
+            item-value="value"
+            :items="types"
+            variant="outlined"
+            max-width="300"
+            @update:modelValue="filterByType"
+          />
+        </v-col>
+      </v-row>
       <v-row>
         <v-col cols="12">
           <v-expansion-panels>
             <MenuItem
-              v-for="(item, index) in sushiItems"
+              v-for="(item, index) in filteredSushiItems"
               :key="index"
               :item="item"
             />
@@ -22,6 +36,8 @@
 </template>
 
 <script>
+import { MenuItemType } from '@/utils/enum';
+
 import MenuItem from '@/components/Menu/MenuItem.vue';
 import futoPhiladelphia from '@/assets/img/menu/futo-philadelphia.jpg';
 import avocadoPhiladelphia from '@/assets/img/menu/avocado-philadelphia.jpg';
@@ -42,6 +58,7 @@ import salmonNigiri from '@/assets/img/menu/salmon-nigiri.jpg';
 import salmonTataki from '@/assets/img/menu/salmon-tataki.jpg';
 import unagiNigiri from '@/assets/img/menu/unagi-nigiri.jpg';
 import yakuzaRoll from '@/assets/img/menu/yakuza-roll.jpg';
+import { toRaw } from 'vue';
 
 export default {
   name: 'Home',
@@ -50,6 +67,36 @@ export default {
   },
   data() {
     return {
+      selectedType: {
+        text: 'All',
+        value: MenuItemType.ALL,
+      },
+      types: [
+        {
+          text: 'All',
+          value: MenuItemType.ALL,
+        },
+        {
+          text: 'Appetizer',
+          value: MenuItemType.APPETIZER,
+        },
+        {
+          text: 'Set',
+          value: MenuItemType.SET,
+        },
+        {
+          text: 'Big roll',
+          value: MenuItemType.BIG_ROLL,
+        },
+        {
+          text: 'Hosomaki',
+          value: MenuItemType.HOSOMAKI,
+        },
+        {
+          text: 'Nigiri',
+          value: MenuItemType.NIGIRI,
+        },
+      ],
       sushiItems: [
         {
           id: 1,
@@ -59,6 +106,7 @@ export default {
           image: futoPhiladelphia,
           isGlutenFree: false,
           pcs: 10,
+          itemType: MenuItemType.BIG_ROLL,
         },
         {
           id: 2,
@@ -68,6 +116,7 @@ export default {
           image: pieceOfTempura,
           isGlutenFree: false,
           pcs: 10,
+          itemType: MenuItemType.BIG_ROLL,
         },
         {
           id: 3,
@@ -78,6 +127,7 @@ export default {
           image: bigScallop,
           isGlutenFree: false,
           pcs: 10,
+          itemType: MenuItemType.BIG_ROLL,
         },
         {
           id: 4,
@@ -87,6 +137,7 @@ export default {
           image: cucumberMaki,
           isGlutenFree: true,
           pcs: 8,
+          itemType: MenuItemType.HOSOMAKI,
         },
         {
           id: 5,
@@ -96,6 +147,7 @@ export default {
           image: salmonMaki,
           isGlutenFree: true,
           pcs: 8,
+          itemType: MenuItemType.HOSOMAKI,
         },
         {
           id: 6,
@@ -105,6 +157,7 @@ export default {
           image: tobikoNigiri,
           isGlutenFree: true,
           pcs: 2,
+          itemType: MenuItemType.NIGIRI,
         },
         {
           id: 7,
@@ -115,6 +168,7 @@ export default {
           image: hightRoll,
           isGlutenFree: true,
           pcs: 10,
+          itemType: MenuItemType.BIG_ROLL,
         },
         {
           id: 8,
@@ -125,6 +179,7 @@ export default {
           image: avocadoPhiladelphia,
           isGlutenFree: false,
           pcs: 10,
+          itemType: MenuItemType.BIG_ROLL,
         },
         {
           id: 9,
@@ -134,6 +189,7 @@ export default {
           image: futomaki,
           isGlutenFree: true,
           pcs: 10,
+          itemType: MenuItemType.BIG_ROLL,
         },
         {
           id: 10,
@@ -144,6 +200,7 @@ export default {
           image: mustHave,
           isGlutenFree: false,
           pcs: 10,
+          itemType: MenuItemType.BIG_ROLL,
         },
         {
           id: 11,
@@ -154,6 +211,7 @@ export default {
           image: dragonRoll,
           isGlutenFree: false,
           pcs: 10,
+          itemType: MenuItemType.BIG_ROLL,
         },
         {
           id: 12,
@@ -164,6 +222,7 @@ export default {
           image: bigMysteryBox,
           isGlutenFree: false,
           pcs: 48,
+          itemType: MenuItemType.SET,
         },
         {
           id: 13,
@@ -174,6 +233,7 @@ export default {
           image: mangoGrill,
           isGlutenFree: false,
           pcs: 10,
+          itemType: MenuItemType.BIG_ROLL,
         },
         {
           id: 14,
@@ -183,6 +243,7 @@ export default {
           image: salmonNigiri,
           isGlutenFree: true,
           pcs: 2,
+          itemType: MenuItemType.NIGIRI,
         },
         {
           id: 15,
@@ -192,6 +253,7 @@ export default {
           image: philadelphiaRoll,
           isGlutenFree: false,
           pcs: 10,
+          itemType: MenuItemType.BIG_ROLL,
         },
         {
           id: 16,
@@ -202,6 +264,7 @@ export default {
           image: yakuzaRoll,
           isGlutenFree: false,
           pcs: 10,
+          itemType: MenuItemType.BIG_ROLL,
         },
         {
           id: 17,
@@ -211,6 +274,7 @@ export default {
           image: unagiNigiri,
           isGlutenFree: false,
           pcs: 2,
+          itemType: MenuItemType.NIGIRI,
         },
         {
           id: 18,
@@ -221,6 +285,7 @@ export default {
           image: sakuraRoll,
           isGlutenFree: false,
           pcs: 10,
+          itemType: MenuItemType.BIG_ROLL,
         },
         {
           id: 19,
@@ -231,9 +296,27 @@ export default {
           image: salmonTataki,
           isGlutenFree: false,
           pcs: '8-12',
+          itemType: MenuItemType.APPETIZER,
         },
       ],
+      filteredSushiItems: [],
     };
+  },
+  created() {
+    this.filteredSushiItems = this.sushiItems;
+  },
+  methods: {
+    filterByType(event) {
+      const rawSushiItems = toRaw(this.sushiItems);
+
+      if (event === MenuItemType.ALL) {
+        this.filteredSushiItems = rawSushiItems;
+      } else {
+        this.filteredSushiItems = rawSushiItems.filter(
+          (item) => item.itemType === event,
+        );
+      }
+    },
   },
 };
 </script>
