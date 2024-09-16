@@ -32,6 +32,16 @@ import hightRoll from '@/assets/img/menu/hight-roll.jpg';
 import pieceOfTempura from '@/assets/img/menu/piece-of-tempura.jpg';
 import salmonMaki from '@/assets/img/menu/salmon-maki.jpg';
 import tobikoNigiri from '@/assets/img/menu/tobiko-nigiri.jpg';
+import bigMysteryBox from '@/assets/img/menu/big-mystery-box.jpg';
+import dragonRoll from '@/assets/img/menu/dragon-roll.jpg';
+import mangoGrill from '@/assets/img/menu/mango-grill.jpg';
+import mustHave from '@/assets/img/menu/must-have.jpg';
+import philadelphiaRoll from '@/assets/img/menu/philadelphia-roll.jpg';
+import sakuraRoll from '@/assets/img/menu/sakura-roll.jpg';
+import salmonNigiri from '@/assets/img/menu/salmon-nigiri.jpg';
+import salmonTataki from '@/assets/img/menu/salmon-tataki.jpg';
+import unagiNigiri from '@/assets/img/menu/unagi-nigiri.jpg';
+import yakuzaRoll from '@/assets/img/menu/yakuza-roll.jpg';
 
 export default {
   name: 'Home',
@@ -124,6 +134,103 @@ export default {
           image: futomaki,
           isGlutenFree: true,
           pcs: 10,
+        },
+        {
+          id: 10,
+          title: 'Must Have',
+          description:
+            'Soy paper, salmon, shrimp tempura, cream cheese, cucumbers. Topped tobiko',
+          price: 17,
+          image: mustHave,
+          isGlutenFree: false,
+          pcs: 10,
+        },
+        {
+          id: 11,
+          title: 'Dragon Roll',
+          description:
+            'Raw salmon, cucumber, cream cheese . On the top: raw salmon, sesame, tobiko',
+          price: 16,
+          image: dragonRoll,
+          isGlutenFree: false,
+          pcs: 10,
+        },
+        {
+          id: 12,
+          title: 'Big Mystery Box',
+          description:
+            '3 big rolls, 2 hosomaki, 2 gunkans for the Chef’s choice. Attention! Tell about your allergies and preferences',
+          price: 55,
+          image: bigMysteryBox,
+          isGlutenFree: false,
+          pcs: 48,
+        },
+        {
+          id: 13,
+          title: 'Mango Grill',
+          description:
+            'Grilled Salmon, cream cheese, cucumber, avocado. On the top Mango topped unagi sos',
+          price: 16,
+          image: mangoGrill,
+          isGlutenFree: false,
+          pcs: 10,
+        },
+        {
+          id: 14,
+          title: 'Salmon Nigiri',
+          description: 'Raw Salmon , rice',
+          price: 5,
+          image: salmonNigiri,
+          isGlutenFree: true,
+          pcs: 2,
+        },
+        {
+          id: 15,
+          title: 'Philadelphia Roll',
+          description: 'Raw salmon , cream cheese, cucumber',
+          price: 14,
+          image: philadelphiaRoll,
+          isGlutenFree: false,
+          pcs: 10,
+        },
+        {
+          id: 16,
+          title: 'Yakuza Roll',
+          description:
+            'Shrimp tempura, cream cheese, avocado. On the top torched salmon with unagi sos',
+          price: 16,
+          image: yakuzaRoll,
+          isGlutenFree: false,
+          pcs: 10,
+        },
+        {
+          id: 17,
+          title: 'Unagi nigiri',
+          description: 'Bbq unagi, rice. Topped unagi sos',
+          price: 6,
+          image: unagiNigiri,
+          isGlutenFree: false,
+          pcs: 2,
+        },
+        {
+          id: 18,
+          title: 'Sakura Roll',
+          description:
+            'Soy paper, bbq eel, cream cheese, cucumber, oshinko. Topped unagi sos',
+          price: 17,
+          image: sakuraRoll,
+          isGlutenFree: false,
+          pcs: 10,
+        },
+        {
+          id: 19,
+          title: 'Salmon tataki',
+          description:
+            'Raw salmon cooked just a 3 sec for every side topped spicy chili pepper powder, green onions and ponzu sos',
+          price: 17,
+          image: salmonTataki,
+          isGlutenFree: false,
+          pcs: '8-12',
         },
       ],
     };
