@@ -19,9 +19,9 @@ const vuetify = createVuetify({
     themes: {
       dark: {
         colors: {
-          primary: '#1E1E2F',
-          secondary: '#282A36',
-          tertiary: '#383A59',
+          primary: '#1C1C1C',
+          secondary: '#2E2E2E',
+          tertiary: '#EE8F90',
         },
       },
     },

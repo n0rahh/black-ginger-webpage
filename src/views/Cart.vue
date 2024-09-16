@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="cart-container">
     <v-card class="pa-8" rounded="xl">
       <v-card-title class="mb-6">
         <h2 class="text-h4">Cart</h2>
@@ -221,6 +221,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/colors';
+
+.cart-container {
+  max-width: 1000px;
+}
+
 .square {
   display: flex;
   align-items: center;

@@ -21,6 +21,7 @@ export default {
 @import '@/styles/global';
 
 .app {
-  background-color: $background-color !important;
+  background-color: $primary !important;
+  color: $tertiary !important;
 }
 </style>
