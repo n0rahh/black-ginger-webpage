@@ -1,5 +1,13 @@
 @import './colors.scss';
 
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Playpen Sans', sans-serif;
+}
+
 .container {
   max-width: 1440px;
   @media screen and (max-width: 640px) {
