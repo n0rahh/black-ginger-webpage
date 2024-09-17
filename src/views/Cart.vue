@@ -8,110 +8,25 @@
         <p class="text-h6">Your cart is empty</p>
       </v-card-text>
       <v-card-text>
-        <v-row>
-          <v-col cols="12">
-            <div
-              v-for="item in cartItems"
-              :key="item.id"
-              class="mb-4 list-item"
-            >
-              <div class="content">
-                <span class="text-h6">
-                  <span>{{ item.title }}</span>
-                  <span class="ml-4">{{ item.price }}$</span>
-                </span>
-              </div>
-              <div class="actions d-flex align-center">
-                <v-btn
-                  color="tertiary"
-                  size="x-small"
-                  icon
-                  @click="decrementQuantity(item)"
-                >
-                  <v-icon size="small">mdi-minus</v-icon>
-                </v-btn>
-                <div class="square">
-                  <span class="mx-4">{{ item.quantity }}</span>
-                </div>
-                <v-btn
-                  color="tertiary"
-                  size="x-small"
-                  icon
-                  @click="incrementQuantity(item)"
-                >
-                  <v-icon size="small">mdi-plus</v-icon>
-                </v-btn>
-              </div>
-            </div>
-          </v-col>
-        </v-row>
+        <OrderSummary v-if="step === 1" :cartItems="cartItems" />
+        <CustomerDetails
+          v-if="step === 2"
+          :cartItems="cartItems"
+          @updateCustomerDetails="updateCustomerDetails"
+        />
         <div v-if="cartItems.length">
           <v-row>
-            <v-col cols="12" class="py-0">
+            <v-col cols="12">
               <v-divider opacity="1" />
             </v-col>
           </v-row>
-          <v-row>
-            <v-col cols="12" class="d-flex flex-column">
-              <v-form ref="form" v-model="isFormValid">
-                <span class="text-h6">Provide some information</span>
-                <v-text-field
-                  v-model="customer.name"
-                  label="Your name"
-                  variant="outlined"
-                  :rules="nameRules"
-                  max-width="300"
-                  class="my-4"
-                  required
-                />
-                <v-text-field
-                  v-model="customer.instagramUsername"
-                  label="Your Instagram username"
-                  variant="outlined"
-                  :rules="instagramRules"
-                  max-width="300"
-                  class="mb-4"
-                  required
-                />
-              </v-form>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col cols="12" class="py-0">
-              <v-divider opacity="1" />
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col cols="12"> </v-col>
-            <v-col
-              cols="12"
-              class="d-flex"
-              :class="{
-                'justify-space-between align-center': !$vuetify.display.xs,
-                'flex-column': $vuetify.display.xs,
-              }"
-            >
-              <p class="d-flex align-center justify-space-between">
-                <span class="text-h6">Summary:</span>
-                <span class="text-h5 ml-4">{{ totalPrice }} $</span>
-              </p>
-              <v-btn
-                color="tertiary"
-                @click="submitOrder"
-                :class="{
-                  'mt-4': $vuetify.display.xs,
-                }"
-              >
-                <span v-if="!isLoading">Send order</span>
-                <v-progress-circular
-                  v-else
-                  indeterminate
-                  color="white"
-                  size="24"
-                />
-              </v-btn>
-            </v-col>
-          </v-row>
+          <BottomNav
+            :totalPrice="totalPrice"
+            :isLoading="isLoading"
+            :step="step"
+            @submitOrder="submitOrder"
+            @next="step++"
+          />
         </div>
       </v-card-text>
     </v-card>
@@ -124,33 +39,34 @@
 <script>
 import axios from 'axios';
 import { useCartStore } from '@/store/cart';
+import BottomNav from '@/components/Cart/BottomNav.vue';
+import OrderSummary from '@/components/Cart/OrderSummary.vue';
+import CustomerDetails from '@/components/Cart/CustomerDetails.vue';
 
 export default {
   name: 'Cart',
+  components: {
+    BottomNav,
+    OrderSummary,
+    CustomerDetails,
+  },
   data() {
     return {
       cartStore: useCartStore(),
+      step: 1,
       snackbar: {
         show: false,
         snackbarText: '',
         snackbarColor: 'green',
       },
-      customer: {
-        name: '',
-        instagramUsername: '',
-      },
-      nameRules: [(v) => !!v || 'Name is required'],
-      instagramRules: [(v) => !!v || 'Instagram username is required'],
+      customer: {},
       isLoading: false,
       isFormValid: false,
     };
   },
   methods: {
-    decrementQuantity(item) {
-      this.cartStore.decrementQuantity(item);
-    },
-    incrementQuantity(item) {
-      this.cartStore.incrementQuantity(item);
+    updateCustomerDetails(customerDetails) {
+      this.customer = customerDetails;
     },
     clearSnackbar() {
       this.snackbar.show = false;
@@ -160,6 +76,12 @@ export default {
       const botToken = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
       const chatId = import.meta.env.VITE_TELEGRAM_CHAT_ID;
 
+      const deliveryText = this.customer.deliveryOption
+        ? `*Delivery:* ${this.customer.deliveryOption ? 'Yes' : 'No'}\n` +
+          `*Delivery address:* ${this.customer.address}\n` +
+          `*Delivery cost:* ${this.customer.deliveryCost}$\n\n`
+        : '';
+
       const orderItems = orderDetails
         .map((item) => `• ${item.title}: ${item.quantity} x ${item.price}$`)
         .join('\n');
@@ -168,6 +90,7 @@ export default {
         `*New order received:*\n\n` +
         `*Name:* ${this.customer.name}\n` +
         `*Instagram:* ${this.customer.instagramUsername}\n\n` +
+        deliveryText +
         `${orderItems}\n\n` +
         `*Total Price:* ${totalPrice}$`;
 
@@ -201,12 +124,12 @@ export default {
       }
     },
     submitOrder() {
-      this.$refs.form.validate();
+      // this.$refs.form.validate();
 
-      if (this.isFormValid) {
-        this.isLoading = true;
-        this.sendOrderNotification(this.cartItems);
-      }
+      // if (this.isFormValid) {
+      this.isLoading = true;
+      this.sendOrderNotification(this.cartItems);
+      // }
     },
   },
   computed: {
@@ -225,44 +148,5 @@ export default {
 
 .cart-container {
   max-width: 1000px;
-}
-
-.square {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin: 0 8px;
-}
-
-.list-item {
-  padding-bottom: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid #cccccc52;
-
-  &:last-child {
-    border-bottom: none;
-  }
-
-  @media (max-width: 480px) {
-    flex-direction: column;
-
-    .content {
-      display: flex;
-      align-items: center;
-      margin-bottom: 16px;
-      text-align: center;
-    }
-
-    .actions {
-      width: 100%;
-      justify-content: space-around;
-    }
-  }
 }
 </style>
