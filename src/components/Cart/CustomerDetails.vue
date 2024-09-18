@@ -152,7 +152,10 @@ export default {
           },
         })
         .then((response) => {
-          if (response.data?.rows[0]?.elements[0]?.status === 'NOT_FOUND') {
+          if (
+            response.data?.rows[0]?.elements[0]?.status === 'NOT_FOUND' ||
+            response.data?.status !== 'OK'
+          ) {
             this.addressMessage = 'Invalid address';
             return;
           }

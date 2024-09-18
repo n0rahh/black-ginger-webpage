@@ -1,6 +1,5 @@
 import { https } from 'firebase-functions';
 import axios from 'axios';
-import functions from 'firebase-functions';
 import cors from 'cors';
 
 const allowedOrigins = [
@@ -19,7 +18,8 @@ export const calculateDistance = https.onRequest(async (req, res) => {
   handleCors(req, res, async () => {
     const { origin, destination } = req.query;
 
-    const apiKey = functions.config().googlemaps.key;
+    // eslint-disable-next-line no-undef
+    const apiKey = process.env.GOOGLEMAPS_KEY;
 
     try {
       const response = await axios.get(
