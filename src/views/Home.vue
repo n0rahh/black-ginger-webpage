@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import { toRaw } from 'vue';
 import { MenuItemType } from '@/utils/enum';
 
 import MenuItem from '@/components/Menu/MenuItem.vue';
@@ -58,7 +59,8 @@ import salmonNigiri from '@/assets/img/menu/salmon-nigiri.jpg';
 import salmonTataki from '@/assets/img/menu/salmon-tataki.jpg';
 import unagiNigiri from '@/assets/img/menu/unagi-nigiri.jpg';
 import yakuzaRoll from '@/assets/img/menu/yakuza-roll.jpg';
-import { toRaw } from 'vue';
+import misoSoup from '@/assets/img/menu/miso-soup.jpg';
+import dumplings from '@/assets/img/menu/dumplings.jpg';
 
 export default {
   name: 'Home',
@@ -296,6 +298,26 @@ export default {
           image: salmonTataki,
           isGlutenFree: false,
           pcs: '8-12',
+          itemType: MenuItemType.APPETIZER,
+        },
+        {
+          id: 20,
+          title: 'Pork and veggies dumplings',
+          description: 'With spicy mayo and micro greens',
+          price: 9,
+          image: dumplings,
+          isGlutenFree: false,
+          pcs: '5',
+          itemType: MenuItemType.APPETIZER,
+        },
+        {
+          id: 21,
+          title: 'Miso soup + rice',
+          description: 'Miso base, tofu, seaweed, green onions',
+          price: 5,
+          image: misoSoup,
+          isGlutenFree: false,
+          pcs: '1',
           itemType: MenuItemType.APPETIZER,
         },
       ],
