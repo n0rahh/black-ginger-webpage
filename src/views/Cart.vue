@@ -100,7 +100,7 @@ export default {
           `https://api.telegram.org/bot${botToken}/sendMessage`,
           {
             chat_id: chatId,
-            text: message,
+            text: message.replace(/_/g, '\\_').replace(/-/g, '\\-'),
             parse_mode: 'MarkdownV2',
           },
         );
