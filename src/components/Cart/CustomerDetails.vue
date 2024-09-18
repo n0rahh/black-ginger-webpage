@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12" class="d-flex flex-column">
-        <v-form ref="form" v-model="isFormValid">
+        <v-form ref="form">
           <span class="text-h6">Provide some information</span>
           <v-text-field
             v-model="customer.name"
@@ -28,7 +28,8 @@
                 label="Your address and city"
                 variant="outlined"
                 max-width="300"
-                required
+                :rules="customer.deliveryOption ? addressRules : []"
+                :required="customer.deliveryOption"
                 class="mt-4"
               />
               <v-tooltip
@@ -41,9 +42,12 @@
                 </template>
               </v-tooltip>
             </div>
-            <span>
+            <span v-if="!estimatedDeliveryCost" class="mt-2">
+              {{ addressMessage }}
+            </span>
+            <span v-else class="mt-2">
               Estimated delivery cost:
-              {{ estimatedDeliveryCost || addressMessage }}
+              {{ estimatedDeliveryCost }}
             </span>
             <v-btn
               color="tertiary"
@@ -82,6 +86,7 @@ export default {
       estimatedDeliveryCost: 0,
       nameRules: [(v) => !!v || 'Name is required'],
       instagramRules: [(v) => !!v || 'Instagram username is required'],
+      addressRules: [(v) => !!v || 'Address is required'],
       addressMessage: 'Enter your address and city',
     };
   },
@@ -94,6 +99,20 @@ export default {
     },
   },
   methods: {
+    async validateForm() {
+      if (!this.$refs.form) {
+        return false;
+      }
+
+      const isValid = await this.$refs.form.validate();
+
+      if (this.customer.deliveryOption && !this.customer.deliveryCost) {
+        this.addressMessage = 'Please calculate delivery cost';
+        return false;
+      }
+
+      return isValid?.valid;
+    },
     getDeliveryCost(distance) {
       let deliveryCost;
       switch (true) {

@@ -11,6 +11,7 @@
         <OrderSummary v-if="step === 1" :cartItems="cartItems" />
         <CustomerDetails
           v-if="step === 2"
+          ref="customerDetails"
           :cartItems="cartItems"
           @updateCustomerDetails="updateCustomerDetails"
         />
@@ -80,7 +81,7 @@ export default {
         ? `*Delivery:* ${this.customer.deliveryOption ? 'Yes' : 'No'}\n` +
           `*Delivery address:* ${this.customer.address}\n` +
           `*Delivery cost:* ${this.customer.deliveryCost}$\n\n`
-        : '';
+        : `*Delivery:* No\n\n`;
 
       const orderItems = orderDetails
         .map((item) => `• ${item.title}: ${item.quantity} x ${item.price}$`)
@@ -104,6 +105,7 @@ export default {
           },
         );
         this.snackbar.snackbarText = 'Order sent successfully';
+        this.snackbar.snackbarColor = 'green';
         this.snackbar.show = true;
         this.isLoading = false;
 
@@ -111,7 +113,7 @@ export default {
           this.clearSnackbar();
           this.cartStore.clearCart();
           this.$router.push('/');
-        }, 2000);
+        }, 1000);
       } catch {
         this.snackbar.snackbarText = 'Error sending order';
         this.snackbar.show = true;
@@ -123,13 +125,21 @@ export default {
         }, 2000);
       }
     },
-    submitOrder() {
-      // this.$refs.form.validate();
+    async submitOrder() {
+      try {
+        const isFormValid = await this.$refs.customerDetails.validateForm();
 
-      // if (this.isFormValid) {
-      this.isLoading = true;
-      this.sendOrderNotification(this.cartItems);
-      // }
+        if (isFormValid) {
+          this.isLoading = true;
+          this.sendOrderNotification(this.cartItems);
+        } else {
+          this.snackbar.show = true;
+          this.snackbar.snackbarText = 'Please fill in the required fields';
+          this.snackbar.snackbarColor = 'red';
+        }
+      } catch (error) {
+        console.error('Error during form validation:', error);
+      }
     },
   },
   computed: {
