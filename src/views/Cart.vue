@@ -72,6 +72,12 @@ export default {
     clearSnackbar() {
       this.snackbar.show = false;
       this.snackbar.snackbarText = '';
+      this.snackbar.snackbarColor = '';
+    },
+    showSnackbar(message, color) {
+      this.snackbar.show = true;
+      this.snackbar.snackbarText = message;
+      this.snackbar.snackbarColor = color;
     },
     async sendOrderNotification(orderDetails) {
       const botToken = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
@@ -104,38 +110,41 @@ export default {
             parse_mode: 'MarkdownV2',
           },
         );
-        this.snackbar.snackbarText = 'Order sent successfully';
-        this.snackbar.snackbarColor = 'green';
-        this.snackbar.show = true;
+        this.showSnackbar('Order sent successfully', 'green');
+
         this.isLoading = false;
 
         setTimeout(() => {
-          this.clearSnackbar();
           this.cartStore.clearCart();
           this.$router.push('/');
         }, 1000);
       } catch {
-        this.snackbar.snackbarText = 'Error sending order';
-        this.snackbar.show = true;
-        this.snackbar.snackbarColor = 'red';
+        this.showSnackbar('Error sending order', 'red');
         this.isLoading = false;
-
-        setTimeout(() => {
-          this.clearSnackbar();
-        }, 2000);
       }
     },
     async submitOrder() {
       try {
         const isFormValid = await this.$refs.customerDetails.validateForm();
 
+        if (isFormValid === 'no-delivery') {
+          this.showSnackbar(
+            'Delivery is not available for your location',
+            'red',
+          );
+          return;
+        }
+
+        if (isFormValid === 'no-cost') {
+          this.showSnackbar('Please calculate delivery cost', 'red');
+          return;
+        }
+
         if (isFormValid) {
           this.isLoading = true;
           this.sendOrderNotification(this.cartItems);
         } else {
-          this.snackbar.show = true;
-          this.snackbar.snackbarText = 'Please fill in the required fields';
-          this.snackbar.snackbarColor = 'red';
+          this.showSnackbar('Please fill in the required fields', 'red');
         }
       } catch (error) {
         console.error('Error during form validation:', error);

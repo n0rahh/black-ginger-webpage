@@ -88,6 +88,7 @@ export default {
       instagramRules: [(v) => !!v || 'Instagram username is required'],
       addressRules: [(v) => !!v || 'Address is required'],
       addressMessage: 'Enter your address and city',
+      deliveryIsNotAvailable: false,
     };
   },
   watch: {
@@ -106,9 +107,17 @@ export default {
 
       const isValid = await this.$refs.form.validate();
 
-      if (this.customer.deliveryOption && !this.customer.deliveryCost) {
+      if (this.customer.deliveryOption && this.deliveryIsNotAvailable) {
+        return 'no-delivery';
+      }
+
+      if (
+        this.customer.deliveryOption &&
+        this.customer.address &&
+        !this.customer.deliveryCost
+      ) {
         this.addressMessage = 'Please calculate delivery cost';
-        return false;
+        return 'no-cost';
       }
 
       return isValid?.valid;
@@ -131,6 +140,7 @@ export default {
         case distance > 30:
           deliveryCost = 0;
           this.addressMessage = 'Delivery is not available for this address';
+          this.deliveryIsNotAvailable = true;
           return;
         default:
           deliveryCost = 0;
