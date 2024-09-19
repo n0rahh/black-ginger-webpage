@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "serve": "vite",
-    "dev": "firebase serve --only functions",
+    "dev": "firebase emulators:start",
     "build": "vite build",
     "preview": "vite preview"
   },
