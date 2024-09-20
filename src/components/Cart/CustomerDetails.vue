@@ -134,6 +134,7 @@ export default {
     },
     getDeliveryCost(distance) {
       let deliveryCost;
+      this.deliveryIsNotAvailable = false;
       switch (true) {
         case distance <= 10:
           deliveryCost = 5;
