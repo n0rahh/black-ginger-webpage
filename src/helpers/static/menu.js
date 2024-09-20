@@ -21,13 +21,20 @@ import unagiNigiri from '@/assets/img/menu/unagi-nigiri.jpg';
 import yakuzaRoll from '@/assets/img/menu/yakuza-roll.jpg';
 import misoSoup from '@/assets/img/menu/miso-soup.jpg';
 import dumplings from '@/assets/img/menu/dumplings.jpg';
+import bakedTempura from '@/assets/img/menu/baked-tempura.jpg';
+import freestyle from '@/assets/img/menu/freestyle.jpg';
+import strawberryCandy from '@/assets/img/menu/strawberry-candy.jpg';
+import cookedHosomaki from '@/assets/img/menu/cooked-hosomaki.jpg';
+import futoGrill from '@/assets/img/menu/futo-grill.jpg';
+import mangoSunrise from '@/assets/img/menu/mango-sunrise.jpg';
+import redGold from '@/assets/img/menu/red-gold.jpg';
 
 export const sushiItems = [
   {
     id: 1,
     title: 'Futo Philadelphia',
     description: 'Salmon, cream cheese, cucumber',
-    price: 13,
+    price: 14,
     image: futoPhiladelphia,
     isGlutenFree: false,
     pcs: 10,
@@ -100,7 +107,7 @@ export const sushiItems = [
     title: 'Avocado Philadelphia Roll',
     description:
       'Salmon + cream cheese + cucumber. Avocado and sesame on the top',
-    price: 14,
+    price: 15,
     image: avocadoPhiladelphia,
     isGlutenFree: false,
     pcs: 10,
@@ -110,7 +117,7 @@ export const sushiItems = [
     id: 9,
     title: 'Futomaki',
     description: 'Salmon, avocado, cucumber',
-    price: 12,
+    price: 13,
     image: futomaki,
     isGlutenFree: true,
     pcs: 10,
@@ -230,7 +237,7 @@ export const sushiItems = [
     price: 9,
     image: dumplings,
     isGlutenFree: false,
-    pcs: '5',
+    pcs: 5,
     itemType: MenuItemType.APPETIZER,
   },
   {
@@ -240,8 +247,81 @@ export const sushiItems = [
     price: 5,
     image: misoSoup,
     isGlutenFree: false,
-    pcs: '1',
+    pcs: 1,
     itemType: MenuItemType.APPETIZER,
+  },
+  {
+    id: 22,
+    title: 'Baked tempura roll',
+    description:
+      'Shrimp tempura, cream cheese, cucumber. Topped with yellow cheese, unagi sos and whole baked',
+    price: 17,
+    image: bakedTempura,
+    isGlutenFree: false,
+    pcs: 10,
+    itemType: MenuItemType.BIG_ROLL,
+  },
+  {
+    id: 23,
+    title: 'Freestyle Roll',
+    description:
+      'Shrimp tempura, cream cheese, avocado. On the top torched bbq eel ,salmon topped with unagi sos and sesame',
+    price: 17,
+    image: freestyle,
+    isGlutenFree: false,
+    pcs: 10,
+    itemType: MenuItemType.BIG_ROLL,
+  },
+  {
+    id: 24,
+    title: 'Strawberry candy',
+    description: 'Strawberry, cream cheese, cucumber, micro greens',
+    price: 14,
+    image: strawberryCandy,
+    isGlutenFree: false,
+    pcs: 10,
+    itemType: MenuItemType.BIG_ROLL,
+  },
+  {
+    id: 25,
+    title: 'Cooked Hosomaki',
+    description: 'Grilled salmon 8pcs & Cooked shrimp 8pcs. Sesame on the top',
+    price: 10,
+    image: cookedHosomaki,
+    isGlutenFree: false,
+    pcs: 16,
+    itemType: MenuItemType.HOSOMAKI,
+  },
+  {
+    id: 26,
+    title: 'Futo grill',
+    description: 'Grilled salmon, cucumber, oshinko. Topped unagi sos, sesame',
+    price: 12,
+    image: futoGrill,
+    isGlutenFree: false,
+    pcs: 10,
+    itemType: MenuItemType.BIG_ROLL,
+  },
+  {
+    id: 27,
+    title: 'Mango Sunrise',
+    description:
+      'Imitation Crab meat, avocado, cucumber. On the top mango and decoration',
+    price: 13,
+    image: mangoSunrise,
+    isGlutenFree: false,
+    pcs: 10,
+    itemType: MenuItemType.BIG_ROLL,
+  },
+  {
+    id: 28,
+    title: 'Red Gold',
+    description: 'Salmon, salad, avocado, oshinko. On the top salmon, tobiko',
+    price: 16,
+    image: redGold,
+    isGlutenFree: false,
+    pcs: 10,
+    itemType: MenuItemType.BIG_ROLL,
   },
 ];
 
