@@ -135,6 +135,9 @@ export default {
     getDeliveryCost(distance) {
       let deliveryCost;
       this.deliveryIsNotAvailable = false;
+      this.customer.deliveryCost = 0;
+      this.estimatedDeliveryCost = 0;
+
       switch (true) {
         case distance <= 10:
           deliveryCost = 5;
