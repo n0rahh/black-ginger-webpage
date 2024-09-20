@@ -64,6 +64,7 @@
             v-model="customer.deliveryOption"
             label="Deliver to my address"
             class="py-0"
+            @change="handleDelivery"
           />
         </v-form>
       </v-col>
@@ -100,6 +101,15 @@ export default {
     },
   },
   methods: {
+    handleDelivery() {
+      if (!this.customer.deliveryOption) {
+        this.customer.address = '';
+        this.customer.deliveryCost = 0;
+        this.estimatedDeliveryCost = 0;
+        this.addressMessage = 'Enter your address and city';
+        this.deliveryIsNotAvailable = false;
+      }
+    },
     async validateForm() {
       if (!this.$refs.form) {
         return false;

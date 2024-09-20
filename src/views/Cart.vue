@@ -1,7 +1,18 @@
 <template>
   <v-container class="cart-container">
-    <v-card class="pa-8" rounded="xl">
-      <v-card-title class="mb-6">
+    <v-card
+      :class="{
+        'pa-8': !$vuetify.display.xs,
+        'py-4': $vuetify.display.xs,
+      }"
+      rounded="xl"
+    >
+      <v-card-title
+        :class="{
+          'mb-6': !$vuetify.display.xs,
+          'mb-2': $vuetify.display.xs,
+        }"
+      >
         <h2 class="text-h4">Cart</h2>
       </v-card-title>
       <v-card-text v-if="!cartItems.length">
@@ -23,6 +34,7 @@
           </v-row>
           <BottomNav
             :totalPrice="totalPrice"
+            :deliveryCost="customer.deliveryCost"
             :isLoading="isLoading"
             :step="step"
             @submitOrder="submitOrder"

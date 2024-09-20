@@ -8,10 +8,15 @@
         'flex-column': $vuetify.display.xs,
       }"
     >
-      <p class="d-flex align-center justify-space-between">
-        <span class="text-h6">Summary:</span>
-        <span class="text-h5 ml-4">{{ totalPrice }} $</span>
-      </p>
+      <div class="d-flex flex-column">
+        <div class="d-flex align-center justify-space-between">
+          <span class="text-h6">Summary:</span>
+          <span class="text-h5 ml-4">{{ totalPrice }} $</span>
+        </div>
+        <span v-if="deliveryCost" class="text-h6 text-end">
+          + {{ deliveryCost }} $ delivery
+        </span>
+      </div>
       <v-btn
         color="tertiary"
         @click="buttonHandler"
@@ -39,6 +44,10 @@ export default {
       required: true,
     },
     step: {
+      type: Number,
+      required: true,
+    },
+    deliveryCost: {
       type: Number,
       required: true,
     },
